@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           targetNamespace="http://terraform.fiap.com.br/soap/chemical-synthesis"
+           xmlns:tns="http://terraform.fiap.com.br/soap/chemical-synthesis"
+           elementFormDefault="qualified">
+
+    <xs:element name="consultReactionRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="compoundCode" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="consultReactionResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="compoundCode" type="xs:string"/>
+                <xs:element name="displayName" type="xs:string"/>
+                <xs:element name="equation" type="xs:string"/>
+                <xs:element name="purpose" type="xs:string"/>
+                <xs:element name="reagents" type="tns:reagentList"/>
+                <xs:element name="availableTargets" type="tns:stringList"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="processSynthesisRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="greenhouseId" type="xs:long"/>
+                <xs:element name="compoundCode" type="xs:string"/>
+                <xs:element name="units" type="xs:int"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="processSynthesisResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="success" type="xs:boolean"/>
+                <xs:element name="greenhouseId" type="xs:long"/>
+                <xs:element name="compoundCode" type="xs:string"/>
+                <xs:element name="units" type="xs:int"/>
+                <xs:element name="producedPercentage" type="xs:decimal"/>
+                <xs:element name="message" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:complexType name="reagentList">
+        <xs:sequence>
+            <xs:element name="reagent" type="tns:reagent" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="reagent">
+        <xs:sequence>
+            <xs:element name="type" type="xs:string"/>
+            <xs:element name="code" type="xs:string"/>
+            <xs:element name="costPerUnit" type="xs:decimal"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="stringList">
+        <xs:sequence>
+            <xs:element name="target" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+</xs:schema>
+

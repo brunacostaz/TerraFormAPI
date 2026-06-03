@@ -62,7 +62,49 @@ $body = @{
 Invoke-RestMethod -Method Post -Uri http://localhost:8080/api/greenhouses/1/compounds/apply -ContentType "application/json" -Body $body
 ```
 
-## 6. Acessar H2 Console
+## 6. Testar SOAP
+
+WSDL:
+
+```text
+http://localhost:8080/ws/chemical-synthesis.wsdl
+```
+
+Esse link pode ser importado no SoapUI.
+
+Exemplo de request `consultReactionRequest`:
+
+```xml
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
+                  xmlns:chem="http://terraform.fiap.com.br/soap/chemical-synthesis">
+  <soapenv:Header/>
+  <soapenv:Body>
+    <chem:consultReactionRequest>
+      <chem:compoundCode>NH3</chem:compoundCode>
+    </chem:consultReactionRequest>
+  </soapenv:Body>
+</soapenv:Envelope>
+```
+
+Exemplo de request `processSynthesisRequest`:
+
+```xml
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
+                  xmlns:chem="http://terraform.fiap.com.br/soap/chemical-synthesis">
+  <soapenv:Header/>
+  <soapenv:Body>
+    <chem:processSynthesisRequest>
+      <chem:greenhouseId>1</chem:greenhouseId>
+      <chem:compoundCode>NH3</chem:compoundCode>
+      <chem:units>1</chem:units>
+    </chem:processSynthesisRequest>
+  </soapenv:Body>
+</soapenv:Envelope>
+```
+
+Observacao: o endpoint REST de sintese tambem chama esse servico SOAP internamente.
+
+## 7. Acessar H2 Console
 
 Abra:
 
@@ -78,7 +120,7 @@ User: sa
 Password:
 ```
 
-## 7. Rodar testes automatizados
+## 8. Rodar testes automatizados
 
 Como Maven nao precisa estar instalado na maquina, rode os testes dentro do Docker:
 
@@ -92,7 +134,7 @@ Resultado esperado:
 BUILD SUCCESS
 ```
 
-## 8. Parar a aplicacao
+## 9. Parar a aplicacao
 
 ```powershell
 docker compose down

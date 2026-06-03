@@ -33,6 +33,12 @@ H2 Console:
 http://localhost:8080/h2-console
 ```
 
+WSDL do servico SOAP:
+
+```text
+http://localhost:8080/ws/chemical-synthesis.wsdl
+```
+
 Configuracao do H2:
 
 ```text
@@ -59,6 +65,17 @@ POST   /api/greenhouses/{id}/compounds/apply
 PUT    /api/greenhouses/{id}
 DELETE /api/greenhouses/{id}
 ```
+
+## SOAP
+
+Operacoes disponiveis:
+
+```text
+consultReaction
+processSynthesis
+```
+
+O endpoint REST `POST /api/greenhouses/{id}/synthesis` chama o SOAP internamente, demonstrando a integracao REST -> SOAP solicitada na disciplina de SOA.
 
 ## Testes
 

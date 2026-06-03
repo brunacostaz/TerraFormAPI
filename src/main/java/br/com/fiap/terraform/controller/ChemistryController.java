@@ -5,7 +5,7 @@ import br.com.fiap.terraform.dto.ApplyCompoundResponse;
 import br.com.fiap.terraform.dto.SynthesisRequest;
 import br.com.fiap.terraform.dto.SynthesisResponse;
 import br.com.fiap.terraform.service.CompoundApplicationService;
-import br.com.fiap.terraform.service.SynthesisService;
+import br.com.fiap.terraform.service.SynthesisApplicationService;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,18 +17,22 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/greenhouses/{greenhouseId}")
 public class ChemistryController {
 
-    private final SynthesisService synthesisService;
+    private final SynthesisApplicationService synthesisApplicationService;
     private final CompoundApplicationService compoundApplicationService;
 
-    public ChemistryController(SynthesisService synthesisService,
+    public ChemistryController(SynthesisApplicationService synthesisApplicationService,
             CompoundApplicationService compoundApplicationService) {
-        this.synthesisService = synthesisService;
+        this.synthesisApplicationService = synthesisApplicationService;
         this.compoundApplicationService = compoundApplicationService;
     }
 
     @PostMapping("/synthesis")
     public SynthesisResponse synthesize(@PathVariable Long greenhouseId, @Valid @RequestBody SynthesisRequest request) {
-        return synthesisService.synthesize(greenhouseId, request.getCompoundCode(), request.getUnits());
+        return synthesisApplicationService.synthesizeThroughSoap(
+                greenhouseId,
+                request.getCompoundCode(),
+                request.getUnits()
+        );
     }
 
     @PostMapping("/compounds/apply")
@@ -42,4 +46,3 @@ public class ChemistryController {
         );
     }
 }
-
