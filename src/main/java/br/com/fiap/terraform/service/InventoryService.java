@@ -1,11 +1,16 @@
 package br.com.fiap.terraform.service;
 
 import br.com.fiap.terraform.dto.InventoryItemResponse;
+import br.com.fiap.terraform.entity.Greenhouse;
 import br.com.fiap.terraform.entity.InventoryItem;
+import br.com.fiap.terraform.entity.OperationLog;
+import br.com.fiap.terraform.enums.LogType;
 import br.com.fiap.terraform.enums.ReagentType;
 import br.com.fiap.terraform.exception.InsufficientStockException;
 import br.com.fiap.terraform.exception.ResourceNotFoundException;
 import br.com.fiap.terraform.repository.InventoryItemRepository;
+import br.com.fiap.terraform.repository.OperationLogRepository;
+import jakarta.transaction.Transactional;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.List;
@@ -16,10 +21,15 @@ public class InventoryService {
 
     private final InventoryItemRepository inventoryItemRepository;
     private final TerraFormMapper mapper;
+    private final GreenhouseService greenhouseService;
+    private final OperationLogRepository operationLogRepository;
 
-    public InventoryService(InventoryItemRepository inventoryItemRepository, TerraFormMapper mapper) {
+    public InventoryService(InventoryItemRepository inventoryItemRepository, TerraFormMapper mapper,
+            GreenhouseService greenhouseService, OperationLogRepository operationLogRepository) {
         this.inventoryItemRepository = inventoryItemRepository;
         this.mapper = mapper;
+        this.greenhouseService = greenhouseService;
+        this.operationLogRepository = operationLogRepository;
     }
 
     public List<InventoryItemResponse> findByGreenhouseId(Long greenhouseId) {
@@ -44,6 +54,25 @@ public class InventoryService {
     public void credit(Long greenhouseId, String resourceCode, BigDecimal quantity) {
         InventoryItem item = findEntity(greenhouseId, resourceCode);
         item.changePercentage(clamp(item.getPercentage().add(quantity)));
+    }
+
+    @Transactional
+    public List<InventoryItemResponse> restock(Long greenhouseId, String resourceCode, BigDecimal quantity) {
+        Greenhouse greenhouse = greenhouseService.findEntityById(greenhouseId);
+        InventoryItem item = findEntity(greenhouseId, resourceCode);
+        BigDecimal before = item.getPercentage();
+
+        item.changePercentage(clamp(before.add(quantity)));
+        BigDecimal credited = item.getPercentage().subtract(before);
+
+        operationLogRepository.save(new OperationLog(
+                greenhouse,
+                LogType.REFILL,
+                null,
+                "Reposição de " + credited + "% de " + item.getResourceCode() + " registrada."
+        ));
+
+        return findByGreenhouseId(greenhouseId);
     }
 
     public void validateReagentStock(Long greenhouseId, ChemicalReaction reaction, int units) {
@@ -90,4 +119,3 @@ public class InventoryService {
         return BigDecimal.valueOf(clamped).setScale(2, RoundingMode.HALF_UP);
     }
 }
-
