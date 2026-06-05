@@ -1,6 +1,7 @@
 package br.com.fiap.terraform.service;
 
 import br.com.fiap.terraform.dto.AirResponse;
+import br.com.fiap.terraform.dto.ActiveAlertResponse;
 import br.com.fiap.terraform.dto.GreenhouseDashboardResponse;
 import br.com.fiap.terraform.dto.GreenhouseResponse;
 import br.com.fiap.terraform.dto.InventoryItemResponse;
@@ -22,9 +23,11 @@ import org.springframework.stereotype.Component;
 public class TerraFormMapper {
 
     private final GravityService gravityService;
+    private final AlertService alertService;
 
-    public TerraFormMapper(GravityService gravityService) {
+    public TerraFormMapper(GravityService gravityService, AlertService alertService) {
         this.gravityService = gravityService;
+        this.alertService = alertService;
     }
 
     public PlanetResponse toPlanetResponse(Planet planet) {
@@ -49,15 +52,20 @@ public class TerraFormMapper {
     }
 
     public GreenhouseDashboardResponse toDashboardResponse(Greenhouse greenhouse, List<OperationLog> logs) {
+        List<ActiveAlertResponse> activeAlerts = alertService.calculateActiveAlerts(greenhouse);
         return new GreenhouseDashboardResponse(
                 greenhouse.getId(),
                 greenhouse.getName(),
                 greenhouse.getStatus(),
+                alertService.statusFromAlerts(activeAlerts),
+                alertService.statusFromQuality(greenhouse.getSoil().getQuality()),
+                alertService.statusFromQuality(greenhouse.getAir().getQuality()),
                 toPlanetResponse(greenhouse.getPlanet()),
                 toPlantResponse(greenhouse.getPlant()),
                 toSoilResponse(greenhouse.getSoil()),
                 toAirResponse(greenhouse.getAir()),
                 greenhouse.getInventory().stream().map(this::toInventoryItemResponse).toList(),
+                activeAlerts,
                 logs.stream().map(this::toOperationLogResponse).toList()
         );
     }
@@ -86,7 +94,8 @@ public class TerraFormMapper {
     }
 
     public PlantResponse toPlantResponse(PlantState plant) {
-        return new PlantResponse(plant.getSpecies(), plant.getPhase(), plant.getPhaseProgress());
+        return new PlantResponse(plant.getSpecies(), plant.getPhase(), plant.getPhaseProgress(),
+                plant.getHealth(), plant.getHealthStatus());
     }
 
     public InventoryItemResponse toInventoryItemResponse(InventoryItem item) {
@@ -106,4 +115,3 @@ public class TerraFormMapper {
         );
     }
 }
-

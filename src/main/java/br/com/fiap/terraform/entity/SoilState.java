@@ -103,7 +103,23 @@ public class SoilState {
         this.nitrogen = nitrogen;
     }
 
+    public void updatePhosphorus(BigDecimal phosphorus) {
+        this.phosphorus = phosphorus;
+    }
+
+    public void updatePotassium(BigDecimal potassium) {
+        this.potassium = potassium;
+    }
+
     public void updateCalcium(BigDecimal calcium) {
         this.calcium = calcium;
+    }
+
+    public void updateMagnesium(BigDecimal magnesium) {
+        this.magnesium = magnesium;
+    }
+
+    public void updateSulfur(BigDecimal sulfur) {
+        this.sulfur = sulfur;
     }
 }

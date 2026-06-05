@@ -65,7 +65,9 @@ public class Greenhouse {
     @AttributeOverrides({
             @AttributeOverride(name = "species", column = @Column(name = "plant_species", nullable = false, length = 60)),
             @AttributeOverride(name = "phase", column = @Column(name = "plant_phase", nullable = false, length = 30)),
-            @AttributeOverride(name = "phaseProgress", column = @Column(name = "plant_phase_progress", nullable = false, precision = 6, scale = 2))
+            @AttributeOverride(name = "phaseProgress", column = @Column(name = "plant_phase_progress", nullable = false, precision = 6, scale = 2)),
+            @AttributeOverride(name = "health", column = @Column(name = "plant_health", nullable = false, precision = 5, scale = 2)),
+            @AttributeOverride(name = "healthStatus", column = @Column(name = "plant_health_status", nullable = false, length = 30))
     })
     private PlantState plant;
 
