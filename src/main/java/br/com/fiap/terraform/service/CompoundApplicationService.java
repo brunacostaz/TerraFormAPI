@@ -42,20 +42,20 @@ public class CompoundApplicationService {
         String normalizedCompound = reaction.getCompoundCode();
 
         if (!reaction.getAvailableTargets().contains(target)) {
-            throw new IllegalArgumentException(normalizedCompound + " nao pode ser aplicado em " + target + ".");
+            throw new IllegalArgumentException(normalizedCompound + " não pode ser aplicado em " + target.getLabel() + ".");
         }
 
         BigDecimal available = inventoryService.getAvailable(greenhouseId, normalizedCompound);
         BigDecimal realQuantity = requestedQuantity.min(available);
         if (realQuantity.compareTo(BigDecimal.ZERO) <= 0) {
-            throw new IllegalArgumentException("Nao ha estoque disponivel de " + normalizedCompound + ".");
+            throw new IllegalArgumentException("Não há estoque disponível de " + normalizedCompound + ".");
         }
 
         BigDecimal multiplier = realQuantity.divide(BigDecimal.TEN, 4, RoundingMode.HALF_UP);
         BigDecimal totalChange = applyEffects(greenhouse, normalizedCompound, target, multiplier, false);
         if (totalChange.compareTo(BigDecimal.ZERO) <= 0) {
-            return new ApplyCompoundResponse(
-                    "A aplicacao nao alteraria o estado da estufa; estoque preservado.",
+                    return new ApplyCompoundResponse(
+                    "A aplicação não alteraria o estado da estufa; estoque preservado.",
                     greenhouseService.getDashboard(greenhouseId)
             );
         }
@@ -68,7 +68,7 @@ public class CompoundApplicationService {
                 greenhouse,
                 LogType.APPLICATION,
                 null,
-                "Aplicacao de " + realQuantity + "% de " + normalizedCompound + " em " + target + "."
+                "Aplicação de " + realQuantity + "% de " + normalizedCompound + " em " + target.getLabel() + "."
         ));
 
         return new ApplyCompoundResponse(
@@ -174,4 +174,3 @@ public class CompoundApplicationService {
         return after.subtract(before).abs();
     }
 }
-

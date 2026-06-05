@@ -14,9 +14,9 @@ public class ChemicalReactionService {
     private final List<ChemicalReaction> reactions = List.of(
             new ChemicalReaction(
                     "H2O",
-                    "Agua",
+                    "Água",
                     "2H2 + O2 -> 2H2O",
-                    "Irrigacao do solo e vaporizacao de umidade no ar.",
+                    "Irrigação do solo e vaporização de umidade no ar.",
                     List.of(
                             new ChemicalReaction.Reagent(ReagentType.RAW_ELEMENT, "H", "8"),
                             new ChemicalReaction.Reagent(ReagentType.RAW_ELEMENT, "O", "4")
@@ -25,9 +25,9 @@ public class ChemicalReactionService {
             ),
             new ChemicalReaction(
                     "NH3",
-                    "Amonia",
+                    "Amônia",
                     "N2 + 3H2 -> 2NH3",
-                    "Reposicao de nitrogenio e leve aumento de pH no solo.",
+                    "Reposição de nitrogênio e leve aumento de pH no solo.",
                     List.of(
                             new ChemicalReaction.Reagent(ReagentType.RAW_ELEMENT, "N", "4"),
                             new ChemicalReaction.Reagent(ReagentType.RAW_ELEMENT, "H", "12")
@@ -36,9 +36,9 @@ public class ChemicalReactionService {
             ),
             new ChemicalReaction(
                     "CaCO3",
-                    "Carbonato de calcio",
+                    "Carbonato de cálcio",
                     "Ca + CO2 + 1/2O2 -> CaCO3",
-                    "Reposicao de calcio e correcao alcalina do pH.",
+                    "Reposição de cálcio e correção alcalina do pH.",
                     List.of(
                             new ChemicalReaction.Reagent(ReagentType.RAW_ELEMENT, "Ca", "5"),
                             new ChemicalReaction.Reagent(ReagentType.RAW_ELEMENT, "C", "5"),
@@ -48,9 +48,9 @@ public class ChemicalReactionService {
             ),
             new ChemicalReaction(
                     "H2CO3",
-                    "Acido carbonico",
+                    "Ácido carbônico",
                     "CO2 + H2O -> H2CO3",
-                    "Reducao controlada do pH do solo.",
+                    "Redução controlada do pH do solo.",
                     List.of(
                             new ChemicalReaction.Reagent(ReagentType.RAW_ELEMENT, "C", "4"),
                             new ChemicalReaction.Reagent(ReagentType.RAW_ELEMENT, "O", "6"),
@@ -72,7 +72,7 @@ public class ChemicalReactionService {
         return reactions.stream()
                 .filter(reaction -> reaction.getCompoundCode().equalsIgnoreCase(compoundCode))
                 .findFirst()
-                .orElseThrow(() -> new ResourceNotFoundException("Reacao nao encontrada: " + compoundCode));
+                .orElseThrow(() -> new ResourceNotFoundException("Reação não encontrada: " + compoundCode));
     }
 
     private ReactionResponse toResponse(ChemicalReaction reaction) {
@@ -93,4 +93,3 @@ public class ChemicalReactionService {
         );
     }
 }
-

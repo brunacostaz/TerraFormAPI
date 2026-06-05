@@ -46,7 +46,7 @@ public class SynthesisService {
                 greenhouse,
                 LogType.SYNTHESIS,
                 null,
-                "Sintese de " + produced + "% de " + reaction.getCompoundCode() + " concluida."
+                "Síntese de " + produced + "% de " + reaction.getCompoundCode() + " concluída."
         ));
 
         return new SynthesisResponse(
@@ -54,9 +54,8 @@ public class SynthesisService {
                 reaction.getCompoundCode(),
                 units,
                 produced,
-                "Sintese concluida com sucesso.",
+                "Síntese concluída com sucesso.",
                 inventoryService.findByGreenhouseId(greenhouseId)
         );
     }
 }
-

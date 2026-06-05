@@ -50,11 +50,11 @@ public class DataInitializer {
                     GrowthPhase.HARVEST, GreenhouseStatus.OPERATIONAL, healthySoil(), healthyAir());
 
             operationLogRepository.saveAll(List.of(
-                    new OperationLog(selene, LogType.READING, null, "Seed inicial: estufa operacional na Lua."),
-                    new OperationLog(ares, LogType.READING, null, "Seed inicial: estufa operacional em Marte."),
+                    new OperationLog(selene, LogType.READING, null, "Estado inicial: estufa operacional na Lua."),
+                    new OperationLog(ares, LogType.READING, null, "Estado inicial: estufa operacional em Marte."),
                     new OperationLog(callisto, LogType.ALERT, br.com.fiap.terraform.enums.AlertLevel.CRITICAL,
-                            "Fosforo critico detectado em Europa."),
-                    new OperationLog(titanOne, LogType.READING, null, "Seed inicial: estufa operacional em Tita."),
+                            "Fósforo crítico detectado em Europa."),
+                    new OperationLog(titanOne, LogType.READING, null, "Estado inicial: estufa operacional em Titã."),
                     new OperationLog(terraOne, LogType.GROWTH, null, "Planta pronta para colheita.")
             ));
         };
@@ -112,4 +112,3 @@ public class DataInitializer {
         return new BigDecimal(value);
     }
 }
-

@@ -13,10 +13,9 @@ public class HealthController {
     @GetMapping
     public Map<String, Object> health() {
         return Map.of(
-                "status", "UP",
-                "service", "TerraForm API",
-                "timestamp", Instant.now()
+                "status", "Ativo",
+                "servico", "TerraForm API",
+                "dataHora", Instant.now()
         );
     }
 }
-
