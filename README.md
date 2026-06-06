@@ -565,7 +565,13 @@ Se estiver usando IntelliJ:
 3. Abra a aba **Maven**.
 4. Execute `Lifecycle > test`.
 
-Também é possível rodar via Maven local:
+Outras opções seria rodar os testes dentro do Docker:
+
+```powershell
+docker run --rm -v D:\TerraFormAPI:/app -w /app maven:3.9.9-eclipse-temurin-21 mvn test
+```
+
+Ou também é possível rodar via Maven local:
 
 ```powershell
 mvn test
