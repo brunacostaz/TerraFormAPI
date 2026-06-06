@@ -293,6 +293,23 @@ docker compose down
 | PUT | `/api/greenhouses/{id}` | Atualiza os dados operacionais de uma estufa. |
 | DELETE | `/api/greenhouses/{id}` | Remove uma estufa e seus registros associados. Requer perfil `ADMIN`. |
 
+### Sobre o endpoint GET `/api/greenhouses/{id}/dashboard`
+
+Campos importantes para o app:
+
+| Campo | Uso no front |
+|---|---|
+| `status` | Status operacional informado. |
+| `overallStatus` | Status geral calculado. |
+| `soilStatus` | Status do solo. |
+| `airStatus` | Status do ar. |
+| `planet.gravityFactor` | Fator usado nas taxas de consumo. |
+| `plant.health` | Saúde da planta. |
+| `plant.healthStatus` | Estado da planta. |
+| `activeAlerts` | Alertas ativos para exibição no topo. |
+| `inventory` | Estoque independente da estufa. |
+| `logs` | Logs operacionais recentes. |
+
 ### Body - criar ou atualizar estufa
 
 Endpoint:
@@ -396,6 +413,30 @@ Exemplo:
 }
 ```
 
+Validações:
+
+- estufa precisa existir;
+- composto precisa existir;
+- `units` precisa ser maior que zero;
+- estoque de reagentes precisa ser suficiente;
+- reagentes são debitados;
+- composto produzido é creditado;
+- log de síntese é registrado.
+
+Erro de estoque insuficiente:
+
+```text
+409 Conflict
+```
+
+```json
+{
+  "status": 409,
+  "message": "Estoque insuficiente de N para sintetizar NH3.",
+  "timestamp": "..."
+}
+```
+
 ### Body - aplicar composto
 
 Endpoint:
@@ -418,6 +459,15 @@ Alvos aceitos:
 
 - `Solo` ou `SOIL`.
 - `Ar` ou `AIR`.
+
+Validações:
+
+- composto precisa existir;
+- alvo precisa ser permitido;
+- estoque precisa ser suficiente;
+- aplicação que não alteraria o estado preserva o estoque;
+- qualidade do solo/ar é recalculada;
+- log de aplicação é registrado.
 
 ### Body - Nutrir Tudo
 
@@ -461,6 +511,13 @@ O lote é validado antes de alterar a estufa. Se faltar estoque para qualquer it
 |---|---|---|
 | GET | `/api/logs` | Lista logs operacionais. Permite filtros por estufa, planeta ou escopo global. |
 
+Filtros opcionais:
+
+```text
+GET /api/logs?greenhouseId=1
+GET /api/logs?planetCode=MARS
+```
+
 ## Serviço SOAP: Chemical Synthesis
 
 **Descrição do serviço:** Web Service SOAP responsável por expor o contrato interoperável de síntese química. Ele permite consultar reações e processar sínteses usando XML.
@@ -476,7 +533,7 @@ http://localhost:8080/ws/chemical-synthesis.wsdl
 | `consultReaction` | Consulta a equação, finalidade, reagentes e alvos disponíveis de um composto. |
 | `processSynthesis` | Processa a síntese de um composto para uma estufa específica. |
 
-### Exemplo SOAP - consultar reacao
+### Exemplo SOAP - consultar reacao (consultReaction)
 
 ```xml
 <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
@@ -490,7 +547,7 @@ http://localhost:8080/ws/chemical-synthesis.wsdl
 </soapenv:Envelope>
 ```
 
-### Exemplo SOAP - processar síntese
+### Exemplo SOAP - processar síntese (processSynthesis)
 
 ```xml
 <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
