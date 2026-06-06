@@ -1,6 +1,8 @@
 package br.com.fiap.terraform.service;
 
 import br.com.fiap.terraform.dto.SynthesisResponse;
+import br.com.fiap.terraform.exception.InsufficientStockException;
+import br.com.fiap.terraform.exception.ResourceNotFoundException;
 import br.com.fiap.terraform.soap.client.ChemicalSynthesisSoapClient;
 import br.com.fiap.terraform.soap.model.ProcessSynthesisResponse;
 import java.util.List;
@@ -25,6 +27,10 @@ public class SynthesisApplicationService {
                 units
         );
 
+        if (!soapResponse.isSuccess()) {
+            throwBusinessException(soapResponse);
+        }
+
         return new SynthesisResponse(
                 soapResponse.getGreenhouseId(),
                 soapResponse.getCompoundCode(),
@@ -34,5 +40,14 @@ public class SynthesisApplicationService {
                 inventoryService.findByGreenhouseId(greenhouseId)
         );
     }
-}
 
+    private void throwBusinessException(ProcessSynthesisResponse soapResponse) {
+        if ("ESTOQUE_INSUFICIENTE".equals(soapResponse.getErrorCode())) {
+            throw new InsufficientStockException(soapResponse.getMessage());
+        }
+        if ("RECURSO_NAO_ENCONTRADO".equals(soapResponse.getErrorCode())) {
+            throw new ResourceNotFoundException(soapResponse.getMessage());
+        }
+        throw new IllegalArgumentException(soapResponse.getMessage());
+    }
+}

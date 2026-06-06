@@ -2,6 +2,8 @@ package br.com.fiap.terraform.soap.endpoint;
 
 import br.com.fiap.terraform.dto.ReactionResponse;
 import br.com.fiap.terraform.dto.SynthesisResponse;
+import br.com.fiap.terraform.exception.InsufficientStockException;
+import br.com.fiap.terraform.exception.ResourceNotFoundException;
 import br.com.fiap.terraform.soap.model.ConsultReactionRequest;
 import br.com.fiap.terraform.soap.model.ConsultReactionResponse;
 import br.com.fiap.terraform.soap.model.ProcessSynthesisRequest;
@@ -9,6 +11,7 @@ import br.com.fiap.terraform.soap.model.ProcessSynthesisResponse;
 import br.com.fiap.terraform.soap.model.SoapReagent;
 import br.com.fiap.terraform.service.ChemicalReactionService;
 import br.com.fiap.terraform.service.SynthesisService;
+import java.math.BigDecimal;
 import org.springframework.ws.server.endpoint.annotation.Endpoint;
 import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
 import org.springframework.ws.server.endpoint.annotation.RequestPayload;
@@ -53,20 +56,42 @@ public class ChemicalSynthesisEndpoint {
     @PayloadRoot(namespace = NAMESPACE, localPart = "processSynthesisRequest")
     @ResponsePayload
     public ProcessSynthesisResponse processSynthesis(@RequestPayload ProcessSynthesisRequest request) {
-        SynthesisResponse synthesis = synthesisService.synthesize(
-                request.getGreenhouseId(),
-                request.getCompoundCode(),
-                request.getUnits()
-        );
+        try {
+            SynthesisResponse synthesis = synthesisService.synthesize(
+                    request.getGreenhouseId(),
+                    request.getCompoundCode(),
+                    request.getUnits()
+            );
 
-        ProcessSynthesisResponse response = new ProcessSynthesisResponse();
-        response.setSuccess(true);
-        response.setGreenhouseId(synthesis.getGreenhouseId());
-        response.setCompoundCode(synthesis.getCompoundCode());
-        response.setUnits(synthesis.getUnits());
-        response.setProducedPercentage(synthesis.getProducedPercentage());
-        response.setMessage(synthesis.getMessage());
-        return response;
+            ProcessSynthesisResponse response = new ProcessSynthesisResponse();
+            response.setSuccess(true);
+            response.setGreenhouseId(synthesis.getGreenhouseId());
+            response.setCompoundCode(synthesis.getCompoundCode());
+            response.setUnits(synthesis.getUnits());
+            response.setProducedPercentage(synthesis.getProducedPercentage());
+            response.setErrorCode("SUCESSO");
+            response.setMessage(synthesis.getMessage());
+            return response;
+        } catch (InsufficientStockException | ResourceNotFoundException | IllegalArgumentException exception) {
+            ProcessSynthesisResponse response = new ProcessSynthesisResponse();
+            response.setSuccess(false);
+            response.setGreenhouseId(request.getGreenhouseId());
+            response.setCompoundCode(request.getCompoundCode());
+            response.setUnits(request.getUnits());
+            response.setProducedPercentage(BigDecimal.ZERO);
+            response.setErrorCode(errorCode(exception));
+            response.setMessage(exception.getMessage());
+            return response;
+        }
+    }
+
+    private String errorCode(RuntimeException exception) {
+        if (exception instanceof InsufficientStockException) {
+            return "ESTOQUE_INSUFICIENTE";
+        }
+        if (exception instanceof ResourceNotFoundException) {
+            return "RECURSO_NAO_ENCONTRADO";
+        }
+        return "REQUISICAO_INVALIDA";
     }
 }
-
