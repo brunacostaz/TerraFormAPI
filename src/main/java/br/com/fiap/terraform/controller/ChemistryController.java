@@ -2,6 +2,7 @@ package br.com.fiap.terraform.controller;
 
 import br.com.fiap.terraform.dto.ApplyCompoundRequest;
 import br.com.fiap.terraform.dto.ApplyCompoundResponse;
+import br.com.fiap.terraform.dto.BatchApplyCompoundsRequest;
 import br.com.fiap.terraform.dto.SynthesisRequest;
 import br.com.fiap.terraform.dto.SynthesisResponse;
 import br.com.fiap.terraform.service.CompoundApplicationService;
@@ -84,5 +85,42 @@ public class ChemistryController {
                 request.getTarget(),
                 request.getQuantity()
         );
+    }
+
+    @Operation(
+            summary = "Aplica varios compostos de uma vez no fluxo Nutrir Tudo.",
+            description = "Valida o lote completo antes de alterar a estufa. Se faltar estoque para qualquer composto, nada e aplicado. Quando aprovado, aplica todos os compostos em uma unica transacao, recalcula o dashboard e registra um log operacional.",
+            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    required = true,
+                    description = "Lista de compostos selecionados para aplicacao em lote.",
+                    content = @Content(examples = @ExampleObject(value = """
+                            {
+                              "applications": [
+                                {
+                                  "compoundCode": "H2O",
+                                  "target": "Solo",
+                                  "quantity": 10
+                                },
+                                {
+                                  "compoundCode": "NH3",
+                                  "target": "Solo",
+                                  "quantity": 5
+                                },
+                                {
+                                  "compoundCode": "CaCO3",
+                                  "target": "Solo",
+                                  "quantity": 5
+                                }
+                              ]
+                            }
+                            """))
+            )
+    )
+    @PostMapping("/compounds/batch-apply")
+    public ApplyCompoundResponse applyCompoundsBatch(
+            @Parameter(description = "Identificador da estufa.", example = "1")
+            @PathVariable Long greenhouseId,
+            @Valid @RequestBody BatchApplyCompoundsRequest request) {
+        return compoundApplicationService.applyBatch(greenhouseId, request.getApplications());
     }
 }
