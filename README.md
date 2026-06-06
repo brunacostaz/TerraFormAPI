@@ -6,6 +6,51 @@ TerraForm API é a camada backend da solução TerraForm, desenvolvida em Java c
 
 O projeto foi estruturado como uma **arquitetura orientada a serviços**, com responsabilidades separadas entre serviços de estufas, estoque, química, simulação, alertas, logs, planetas e segurança. Cada serviço possui contrato próprio via REST ou SOAP, mantendo baixo acoplamento e facilitando reutilização e integração.
 
+![Java](https://img.shields.io/badge/Java-21-ED8B00?logo=openjdk&logoColor=white)
+![Docker](https://img.shields.io/badge/Docker-ready-2496ED?logo=docker&logoColor=white)
+![Spring Web](https://img.shields.io/badge/Spring_Web-6DB33F?logo=spring&logoColor=white)
+![Spring Data JPA](https://img.shields.io/badge/Spring_Data_JPA-6DB33F?logo=spring&logoColor=white)
+![Spring Security](https://img.shields.io/badge/Spring_Security-6DB33F?logo=springsecurity&logoColor=white)
+![Spring Validation](https://img.shields.io/badge/Spring_Validation-6DB33F?logo=spring&logoColor=white)
+![Spring Web Services](https://img.shields.io/badge/Spring_Web_Services-6DB33F?logo=spring&logoColor=white)
+![JUnit 5](https://img.shields.io/badge/JUnit_5-25A162?logo=junit5&logoColor=white)
+![Mockito](https://img.shields.io/badge/Mockito-78A746?logoColor=white)
+
+---
+
+## Sumário
+
+- [O Problema](#o-problema)
+- [A Solução](#a-solução)
+- [Funcionalidades da API](#funcionalidades-da-api)
+- [Arquitetura de Serviços](#arquitetura-de-serviços)
+- [Tecnologias Utilizadas](#tecnologias-utilizadas)
+- [Segurança da API](#segurança-da-api)
+- [Como Rodar o Projeto](#como-rodar-o-projeto)
+  - [1. Pré-requisitos](#1-pré-requisitos)
+  - [2. Clonar o repositório](#2-clonar-o-repositório)
+  - [3. Subir a aplicação com Docker](#3-subir-a-aplicação-com-docker)
+  - [4. Acessar a API](#4-acessar-a-api)
+  - [5. Usar autenticação no Insomnia/Postman/Swagger](#5-usar-autenticação-no-insomniapostmanswagger)
+  - [6. Testar no Insomnia](#6-testar-no-insomnia)
+  - [7. Encerrar a aplicação](#7-encerrar-a-aplicação)
+- [Serviços da Aplicação](#serviços-da-aplicação)
+  - [Health](#health)
+  - [Planet Service](#planet-service)
+  - [Greenhouse Service](#greenhouse-service)
+  - [Inventory Service](#inventory-service)
+  - [Chemical Reaction Service](#chemical-reaction-service)
+  - [Synthesis Service e Compound Application Service](#synthesis-service-e-compound-application-service)
+  - [Log Service](#log-service)
+  - [SOAP Chemical Synthesis Service](#soap-chemical-synthesis-service)
+  - [Integração REST -> SOAP](#integração-rest---soap)
+  - [Simulação e Gravidade](#simulação-e-gravidade)
+- [Testes Automatizados](#testes-automatizados)
+- [Observacoes para o App Mobile](#observacoes-para-o-app-mobile)
+
+
+---
+
 ## O Problema
 
 Cultivar alimentos no espaço é extremamente complexo:
@@ -16,11 +61,15 @@ Cultivar alimentos no espaço é extremamente complexo:
 - Distância entre a Terra e as bases espaciais tornando intervenções manuais lentas ou inviáveis.
 - Necessidade de monitoramento contínuo para evitar perda de colheita em ambientes herméticos.
 
+---
+
 ## A Solução
 
 TerraForm centraliza o controle operacional de estufas hermeticamente isoladas instaladas em diferentes planetas e luas do sistema solar. O usuário assume o papel de um operador agrícola que monitora solo, ar, atmosfera, crescimento da planta, estoque e reações químicas a partir de um aplicativo mobile.
 
 TerraForm é uma ferramenta operacional, inspirada em painéis SCADA, com uma abordagem científica para controle de ambiente, estoque e simulação agrícola em condições espaciais.
+
+---
 
 ## Funcionalidades da API
 
@@ -42,21 +91,27 @@ TerraForm é uma ferramenta operacional, inspirada em painéis SCADA, com uma ab
 - Documentação interativa via Swagger.
 - Execução simplificada com Docker.
 
+---
+
 ## Arquitetura de Serviços
 
 A API foi dividida em serviços com responsabilidades claras:
 
-- **Greenhouse Service**: cadastro, consulta, atualização e dashboard das estufas.
-- **Planet Service**: consulta de planetas/lua e suas características gravitacionais.
-- **Inventory Service**: controle de estoque independente por estufa.
-- **Chemical Reaction Service**: catálogo de reações químicas e regras de síntese.
-- **Synthesis Service**: processamento da síntese de compostos.
-- **Compound Application Service**: aplicação de compostos no solo/ar e fluxo Nutrir Tudo.
-- **Simulation Service**: consumo automático, crescimento da planta e degradação ambiental.
-- **Alert Service**: cálculo de alertas ativos a partir dos estados da estufa.
-- **Log Service**: histórico operacional das ações executadas.
-- **SOAP Chemical Synthesis Service**: contrato SOAP interoperável para consulta e processamento químico.
-- **Security Service**: autenticação, autorização e tratamento de erros de acesso.
+| Serviço | Responsabilidade | 
+|---|---|
+| **Greenhouse Service** | cadastro, consulta, atualização e dashboard das estufas. |
+| **Planet Service** | consulta de planetas/lua e suas características gravitacionais. |
+| **Inventory Service** | controle de estoque independente por estufa. |
+| **Chemical Reaction Service** | catálogo de reações químicas e regras de síntese. |
+| **Synthesis Service** | processamento da síntese de compostos. |
+| **Compound Application Service** | aplicação de compostos no solo/ar e fluxo Nutrir Tudo. |
+| **Simulation Service** | consumo automático, crescimento da planta e degradação ambiental. |
+| **Alert Service** | cálculo de alertas ativos a partir dos estados da estufa. |
+| **Log Service** | histórico operacional das ações executadas. |
+| **SOAP Chemical Synthesis Service** | contrato SOAP interoperável para consulta e processamento químico. |
+| **Security Service** | autenticação, autorização e tratamento de erros de acesso. |
+
+---
 
 ## Tecnologias Utilizadas
 
@@ -78,6 +133,8 @@ A API foi dividida em serviços com responsabilidades claras:
 | JUnit 5 | Testes automatizados |
 | Mockito | Mocks em testes unitários |
 | Maven | Build e gerenciamento de dependências |
+
+---
 
 ## Segurança da API
 
@@ -108,6 +165,7 @@ Erros de segurança são retornados em JSON:
   "timestamp": "2026-06-06T12:00:00Z"
 }
 ```
+---
 
 ## Como Rodar o Projeto
 
@@ -264,7 +322,10 @@ Depois execute:
 docker compose down
 ```
 
-## Serviço: Health
+---
+# Serviços da Aplicação
+
+## Health
 
 **Descrição do serviço:** verifica se a API está disponível.
 
@@ -272,7 +333,9 @@ docker compose down
 |---|---|---|
 | GET | `/api/health` | Retorna o status de disponibilidade da API. |
 
-## Serviço: Planetas
+---
+
+## Planet Service
 
 **Descrição do serviço:** disponibiliza os planetas e luas suportados pela simulação, incluindo gravidade e fator de consumo.
 
@@ -280,7 +343,9 @@ docker compose down
 |---|---|---|
 | GET | `/api/planets` | Lista Lua, Marte, Europa, Titã e Terra com seus dados gravitacionais. |
 
-## Serviço: Estufas
+---
+
+## Greenhouse Service
 
 **Descrição do serviço:** gerencia as estufas herméticas independentes. Cada estufa possui seu próprio solo, ar, planta, estoque, logs e simulação.
 
@@ -293,7 +358,11 @@ docker compose down
 | PUT | `/api/greenhouses/{id}` | Atualiza os dados operacionais de uma estufa. |
 | DELETE | `/api/greenhouses/{id}` | Remove uma estufa e seus registros associados. Requer perfil `ADMIN`. |
 
-### Sobre o endpoint GET `/api/greenhouses/{id}/dashboard`
+### Detalhes sobre o Endpoint:
+
+```text
+GET /api/greenhouses/{id}/dashboard
+```
 
 Campos importantes para o app:
 
@@ -337,7 +406,9 @@ Exemplo:
 }
 ```
 
-## Serviço: Estoque
+---
+
+## Inventory Service
 
 **Descrição do serviço:** controla recursos brutos e compostos sintetizados de cada estufa. O estoque é independente por estufa.
 
@@ -368,7 +439,9 @@ Códigos comuns:
 - Recursos brutos: `H`, `O`, `N`, `C`, `Ca`, `P`, `K`, `Mg`, `S`.
 - Compostos sintetizados: `H2O`, `NH3`, `CaCO3`, `H2CO3`.
 
-## Serviço: Reações Químicas
+---
+
+## Chemical Reaction Service
 
 **Descrição do serviço:** disponibiliza as reações químicas reais e balanceadas usadas pela síntese.
 
@@ -386,9 +459,11 @@ Reacoes principais:
 | `CaCO3` | `Ca + CO2 + 1/2O2 -> CaCO3` |
 | `H2CO3` | `CO2 + H2O -> H2CO3` |
 
-## Serviço: Síntese e Aplicação de Compostos
+---
 
-**Descrição do serviço:** processa síntese química, aplicação de compostos no solo/ar e o fluxo Nutrir Tudo. A síntese REST chama internamente o Web Service SOAP, demonstrando integração entre serviços.
+## Synthesis Service e Compound Application Service
+
+**Descrição do serviço:** processa síntese química, aplicação de compostos no solo/ar e o fluxo Nutrir Tudo. A síntese REST **chama internamente o Web Service SOAP**, demonstrando integração entre serviços.
 
 | Metodo | Endpoint | Descricao |
 |---|---|---|
@@ -503,7 +578,9 @@ Exemplo:
 
 O lote é validado antes de alterar a estufa. Se faltar estoque para qualquer item, nada é aplicado.
 
-## Serviço: Logs Operacionais
+---
+
+## Log Service
 
 **Descrição do serviço:** registra histórico de ações relevantes executadas na API, como síntese, reposição, aplicação de compostos e nutrição em lote.
 
@@ -518,7 +595,9 @@ GET /api/logs?greenhouseId=1
 GET /api/logs?planetCode=MARS
 ```
 
-## Serviço SOAP: Chemical Synthesis
+---
+
+## SOAP Chemical Synthesis Service
 
 **Descrição do serviço:** Web Service SOAP responsável por expor o contrato interoperável de síntese química. Ele permite consultar reações e processar sínteses usando XML.
 
@@ -533,7 +612,7 @@ http://localhost:8080/ws/chemical-synthesis.wsdl
 | `consultReaction` | Consulta a equação, finalidade, reagentes e alvos disponíveis de um composto. |
 | `processSynthesis` | Processa a síntese de um composto para uma estufa específica. |
 
-### Exemplo SOAP - consultar reacao (consultReaction)
+### Exemplo SOAP - consultar reação (consultReaction)
 
 ```xml
 <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
@@ -570,6 +649,8 @@ Username: operator
 Password: terraform-operator
 ```
 
+---
+
 ## Integracao REST -> SOAP
 
 O endpoint REST:
@@ -594,6 +675,8 @@ Quando ocorre erro de negocio, como estoque insuficiente, a API retorna status a
 }
 ```
 
+---
+
 ## Simulação e Gravidade
 
 As estufas são hermeticamente isoladas. O solo nativo do planeta não interfere no cultivo. A gravidade é a variável planetária usada para alterar o consumo dos recursos:
@@ -610,6 +693,8 @@ consumo efetivo = taxa base * gravityFactor
 | Lua | 0.17 g | 0.751 |
 | Marte | 0.38 g | 0.814 |
 | Terra | 1.00 g | 1.000 |
+
+---
 
 ## Testes Automatizados
 
@@ -633,6 +718,8 @@ Ou também é possível rodar via Maven local:
 ```powershell
 mvn test
 ```
+
+---
 
 ## Observacoes para o App Mobile
 
