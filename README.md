@@ -34,7 +34,7 @@ O projeto foi estruturado como uma **arquitetura orientada a serviços**, com re
   - [5. Usar autenticação no Insomnia/Postman/Swagger](#5-usar-autenticação-no-insomniapostmanswagger)
   - [6. Testar no Insomnia](#6-testar-no-insomnia)
   - [7. Encerrar a aplicação](#7-encerrar-a-aplicação)
-- [Serviços da Aplicação](#serviços-da-aplicação)
+- [Endpoints da Aplicação](#endpoints-da-aplicação)
   - [Health](#health)
   - [Planet Service](#planet-service)
   - [Greenhouse Service](#greenhouse-service)
@@ -329,7 +329,7 @@ docker compose down
 ```
 
 ---
-# Serviços da Aplicação
+# Endpoints da Aplicação
 
 ## Health
 
