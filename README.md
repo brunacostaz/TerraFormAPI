@@ -119,6 +119,10 @@ A API foi dividida em serviços com responsabilidades claras:
 
 ---
 
+<img src="architecture/TerraFormAPI-visão_geral.png" alt="Visão Geral da Arquitetura" width="800">
+
+---
+
 ## Tecnologias Utilizadas
 
 | Tecnologia | Uso no projeto |
@@ -385,6 +389,12 @@ Campos importantes para o app:
 | `inventory` | Estoque independente da estufa. |
 | `logs` | Logs operacionais recentes. |
 
+---
+
+<img src="architecture/TerraFormAPI-dashboard.png" alt="Arquitetura do dashboard da estufa" width="400">
+
+---
+
 ### Body - criar ou atualizar estufa
 
 Endpoint:
@@ -444,6 +454,12 @@ Códigos comuns:
 
 - Recursos brutos: `H`, `O`, `N`, `C`, `Ca`, `P`, `K`, `Mg`, `S`.
 - Compostos sintetizados: `H2O`, `NH3`, `CaCO3`, `H2CO3`.
+
+---
+
+<img src="architecture/TerraFormAPI-restock.png" alt="Arquitetura para repor composto" width="400">
+
+---
 
 ---
 
@@ -518,6 +534,12 @@ Erro de estoque insuficiente:
 }
 ```
 
+---
+
+<img src="architecture/TerraFormAPI-synthesis.png" alt="Arquitetura para sintetizar composto" width="400">
+
+---
+
 ### Body - aplicar composto
 
 Endpoint:
@@ -549,6 +571,12 @@ Validações:
 - aplicação que não alteraria o estado preserva o estoque;
 - qualidade do solo/ar é recalculada;
 - log de aplicação é registrado.
+
+---
+
+<img src="architecture/TerraFormAPI-apply.png" alt="Arquitetura para aplicar composto" width="400">
+
+---
 
 ### Body - Nutrir Tudo
 
