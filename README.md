@@ -110,6 +110,12 @@ A API foi dividida em serviços com responsabilidades claras:
 | **Log Service** | histórico operacional das ações executadas. |
 | **SOAP Chemical Synthesis Service** | contrato SOAP interoperável para consulta e processamento químico. |
 | **Security Service** | autenticação, autorização e tratamento de erros de acesso. |
+| **Gravity Service** | cálculo do fator gravitacional usado para ajustar as taxas de consumo de cada estufa conforme o planeta/lua. |
+| **Agriculture Calculation Service** | cálculo da qualidade do solo, qualidade do ar, status do solo/ar e regras de crescimento/saúde da planta. |
+| **TerraForm Mapper** | montagem dos DTOs de resposta da API, convertendo entidades internas em JSON adequado para o app mobile. |
+| **Compound Effect Strategies** | conjunto de estratégias polimórficas que aplicam os efeitos de cada composto no solo ou no ar da estufa. |
+| **Synthesis Application Service** | serviço de aplicação que conecta a API REST ao cliente SOAP no fluxo de síntese química. |
+| **Chemical Synthesis SOAP Client** | cliente interno responsável por chamar o Web Service SOAP a partir da API REST. |
 
 ---
 
@@ -651,7 +657,7 @@ Password: terraform-operator
 
 ---
 
-## Integracao REST -> SOAP
+## Integração REST -> SOAP
 
 O endpoint REST:
 
