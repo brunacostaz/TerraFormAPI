@@ -46,7 +46,7 @@ O projeto foi estruturado como uma **arquitetura orientada a serviços**, com re
   - [Integração REST -> SOAP](#integração-rest---soap)
   - [Simulação e Gravidade](#simulação-e-gravidade)
 - [Testes Automatizados](#testes-automatizados)
-- [Observacoes para o App Mobile](#observacoes-para-o-app-mobile)
+- [Observações para o App Mobile](#observações-para-o-app-mobile)
 
 
 ---
@@ -727,7 +727,7 @@ mvn test
 
 ---
 
-## Observacoes para o App Mobile
+## Observações para o App Mobile
 
 O app mobile pode consumir diretamente os endpoints REST da API. A camada SOAP fica encapsulada no backend: o app chama REST, e o backend realiza a integração SOAP quando necessário.
 
