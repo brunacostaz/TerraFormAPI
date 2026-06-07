@@ -584,6 +584,16 @@ Exemplo:
 
 O lote é validado antes de alterar a estufa. Se faltar estoque para qualquer item, nada é aplicado.
 
+Além disso, tanto para o endpoint `/apply` quanto `/batch-apply`, é necessário saber o composto e onde será aplicado. Para isso, o serviço chama uma interface e depois filtra, a partir da requisição recebida, qual classe filha deve utilizar para realizar a operação solicitada, conforme a tabela abaixo:
+
+| Classe | Composto | Alvo | O que altera |
+| -- | -- | -- | -- |
+| WaterSoilEffect | H2O | Solo | Aumenta umidade do solo |
+| WaterAirEffect | H2O | Ar | Aumenta umidade do ar e reduz CO2 |
+| AmmoniaSoilEffect | NH3 | Solo | Aumenta nitrogênio e pH |
+| CalciumCarbonateSoilEffect | CaCO3 | Solo | Aumenta cálcio e pH |
+| CarbonicAcidSoilEffect | H2CO3 | Solo | Reduz pH e aumenta umidade |
+
 ---
 
 ## Log Service
