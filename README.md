@@ -17,6 +17,19 @@ O projeto foi estruturado como uma **arquitetura orientada a serviços**, com re
 ![Mockito](https://img.shields.io/badge/Mockito-78A746?logoColor=white)
 
 ---
+<p align="center">Aplicativo que consome a API</p>
+<p align="center">
+  <img src="front_app/front_app_1.png" alt="Visão Geral da Arquitetura" width="200">
+<img src="front_app/front_app_4.png" alt="Visão Geral da Arquitetura" width="200">
+<img src="front_app/front_app_3.png" alt="Visão Geral da Arquitetura" width="200">
+<br><br><br>
+<img src="front_app/front_app_5.png" alt="Visão Geral da Arquitetura" width="200">
+<img src="front_app/front_app_2.png" alt="Visão Geral da Arquitetura" width="200">
+<img src="front_app/front_app_6.png" alt="Visão Geral da Arquitetura" width="200">
+</p>
+
+
+---
 
 ## Sumário
 
